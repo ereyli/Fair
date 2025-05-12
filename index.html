@@ -103,6 +103,7 @@
           document.getElementById("status").innerText = "Wallet connected";
           document.getElementById("walletAddress").innerText = address;
           document.getElementById("connectBtn").innerText = "Wallet Connected";
+          await updateChart();
         } catch (err) {
           document.getElementById("status").innerText = "Connection failed";
         }
@@ -163,6 +164,54 @@
     }
 
     setInterval(updateCountdown, 1000);
+  </script>
+  <div style="margin-top: 40px; font-size: 0.9rem;">
+    Follow us on
+    <a href="https://x.com/yourusername" target="_blank" style="color: #ffd700; text-decoration: underline;">X (Twitter)</a>
+  </div>
+  <canvas id="claimChart" width="300" height="150" style="margin-top: 40px;"></canvas>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Dummy value, replace with actual claimed amount if reading from contract
+    let totalClaimed = 0;
+
+    async function updateChart() {
+      try {
+        const balance = await provider.getBalance(claimContractAddress);
+        const ethReceived = parseFloat(ethers.utils.formatEther(balance));
+        totalClaimed = Math.floor((ethReceived / 0.004));
+      } catch (e) {
+        totalClaimed = 0;
+      }
+
+      const data = {
+        labels: ['Claimed', 'Remaining'],
+        datasets: [{
+          label: 'Token Claims',
+          data: [totalClaimed, 900 - totalClaimed],
+          backgroundColor: ['#FFD700', '#003366'],
+        }]
+      };
+
+      new Chart(
+        document.getElementById('claimChart'),
+        {
+          type: 'doughnut',
+          data: data,
+          options: {
+            plugins: {
+              legend: {
+                labels: {
+                  color: 'white'
+                }
+              }
+            }
+          }
+        }
+      );
+    }
+
+    // window.addEventListener('load', updateChart);
   </script>
 </body>
 </html>
