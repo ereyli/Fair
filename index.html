@@ -4,7 +4,7 @@
   <link rel="icon" href="/mnt/data/1pCjLY5q_400x400.jpg" type="image/jpeg">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Claim FAIR Tokens - FairBase</title>
+  <title>Claim 1M FAIR - BaseBunny</title>
   <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
@@ -82,9 +82,15 @@
     }
   </style>
 </head>
-<body>
-  <h1>Claim Your 1M FAIR Tokens</h1>
-  <h2>FairBase is a fair and transparent token pre-sale on Base. Every wallet can purchase 1M FAIR tokens for 0.004 ETH. This is a one-time opportunity per wallet — no bots, no whales, just fairness.</h2>
+<body style="margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #0052FF, #66B2FF); color: white;">
+  <header style="text-align: center; margin-top: 40px;">
+    <h1 style="font-size: 2.5rem; margin-bottom: 0.2rem;">Claim Your 1M FAIR Tokens with BaseBunny 🐰</h1>
+    <h2 style="font-weight: 400; font-size: 1.1rem; margin: 10px auto 30px auto; color: #d0e9ff; max-width: 700px;">BaseBunny is a fun and transparent token drop on Base. Every wallet can purchase 1M FAIR tokens for 0.004 ETH. This is a one-time opportunity per wallet — no bots, no whales, just fairness.</h2>
+  </header>
+  
+  <div style="margin-top: 30px;">
+    <img src="https://bafybeiceo34zauhu2y7jsu425tlkbj3lg7po4yqfj43kgj5dahbec6j6ae.ipfs.w3s.link/Basebunny.png" alt="BaseBunny" style="width: 300px; border-radius: 24px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); opacity: 0.95;">
+  </div>
 
   <button id="connectBtn" onclick="connectWallet()">Connect Wallet</button>
   <div id="walletAddress"></div>
@@ -95,11 +101,6 @@
 
   <canvas id="claimChart" width="180" height="180"></canvas>
   <p id="claimCount"></p>
-
-  <footer>
-    Follow us on
-    <a href="https://x.com/yourusername" target="_blank">X (Twitter)</a>
-  </footer>
 
   <script>
     const claimContractAddress = "0xd5f8e55443effded888bfc5543d5169ca52ff822";
@@ -233,5 +234,6 @@
       await updateChart();
     });
   </script>
+
 </body>
 </html>
