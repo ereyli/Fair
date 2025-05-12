@@ -51,9 +51,15 @@
     }
 
     #status {
-      margin-top: 25px;
+      margin-top: 15px;
       font-size: 1.1rem;
       color: #ffd700;
+    }
+
+    #walletAddress {
+      margin-top: 10px;
+      font-size: 1rem;
+      color: #bbf1ff;
     }
 
     #countdown {
@@ -65,15 +71,16 @@
 </head>
 <body>
   <h1>Claim Your 1M FAIR Tokens</h1>
-  <h2>Welcome to FairBase - a community-first token on Base. Claim your share in the fairest token drop on-chain. To claim, a small fee of 0.004 ETH is required. Claim period is limited to 10 days!</h2>
-  <button onclick="connectWallet()">Connect Wallet</button>
+  <h2>FairBase is a fair and transparent token pre-sale on Base. Every wallet can purchase 1M FAIR tokens for 0.004 ETH. This is a one-time opportunity per wallet — no bots, no whales, just fairness.</h2>
+  <button id="connectBtn" onclick="connectWallet()">Connect Wallet</button>
+  <div id="walletAddress"></div>
   <button onclick="claimTokens()">Pay 0.004 ETH & Claim 1M FAIR</button>
   <div id="countdown"></div>
   <div id="status"></div>
 
   <script>
     const claimContractAddress = "0xd5f8e55443effded888bfc5543d5169ca52ff822";
-    const tokenAddress = "0xdc3e3fa829354d84f0963020a593542bab7c6b2b"; // new FAIR token
+    const tokenAddress = "0xdc3e3fa829354d84f0963020a593542bab7c6b2b";
 
     const claimAbi = [
       "function claim() external payable",
@@ -92,7 +99,10 @@
           provider = new ethers.providers.Web3Provider(window.ethereum);
           signer = provider.getSigner();
           contract = new ethers.Contract(claimContractAddress, claimAbi, signer);
+          const address = await signer.getAddress();
           document.getElementById("status").innerText = "Wallet connected";
+          document.getElementById("walletAddress").innerText = address;
+          document.getElementById("connectBtn").innerText = "Wallet Connected";
         } catch (err) {
           document.getElementById("status").innerText = "Connection failed";
         }
@@ -132,8 +142,7 @@
       }
     }
 
-    // Countdown Timer
-    const deadlineUnix = Math.floor(Date.now() / 1000) + (10 * 24 * 60 * 60); // Now + 10 days
+    const deadlineUnix = Math.floor(Date.now() / 1000) + (10 * 24 * 60 * 60);
 
     function updateCountdown() {
       const now = Math.floor(Date.now() / 1000);
