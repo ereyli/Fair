@@ -84,8 +84,8 @@
 </head>
 <body style="margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #0052FF, #66B2FF); color: white;">
   <header style="text-align: center; margin-top: 40px;">
-    <h1 style="font-size: 2.5rem; margin-bottom: 0.2rem;">Claim Your 1M FAIR Tokens with BaseBunny 🐰</h1>
-    <h2 style="font-weight: 400; font-size: 1.1rem; margin: 10px auto 30px auto; color: #d0e9ff; max-width: 700px;">BaseBunny is a fun and transparent token drop on Base. Every wallet can purchase 1M FAIR tokens for 0.004 ETH. This is a one-time opportunity per wallet — no bots, no whales, just fairness.</h2>
+    <h1 style="font-size: 2.5rem; margin-bottom: 0.2rem;">Claim Your 1M BUNNY Tokens with BaseBunny 🐰</h1>
+    <h2 style="font-weight: 400; font-size: 1.1rem; margin: 10px auto 30px auto; color: #d0e9ff; max-width: 700px;">BaseBunny is a fun and transparent token drop on Base. Every wallet can purchase 1M BUNNY tokens for 0.004 ETH. This is a one-time opportunity per wallet — no bots, no whales, just fairness.</h2>
   </header>
   
   <div style="display: flex; justify-content: center; align-items: flex-start; gap: 40px; margin-top: 30px; flex-wrap: wrap;">
@@ -144,7 +144,7 @@
 
     async function claimTokens() {
       if (!contract) {
-        document.getElementById("status").innerText = "Please connect your wallet first.";
+        document.getElementById("status").innerText = "Please connect your wallet first to claim BUNNY.";
         return;
       }
 
@@ -152,7 +152,7 @@
         const address = await signer.getAddress();
         const hasClaimed = await contract.claimed(address);
         if (hasClaimed) {
-          document.getElementById("status").innerText = "You have already claimed your FAIR tokens.";
+          document.getElementById("status").innerText = "You have already claimed your BUNNY tokens.";
           return;
         }
 
@@ -166,7 +166,7 @@
         const tx = await contract.claim({ value: ethers.utils.parseEther("0.004") });
         document.getElementById("status").innerText = "Claiming...";
         await tx.wait();
-        document.getElementById("status").innerText = "Success! 1M FAIR tokens claimed.";
+        document.getElementById("status").innerText = "Success! 1M BUNNY tokens claimed.";
       } catch (error) {
         console.error(error);
         document.getElementById("status").innerText = "Transaction failed.";
