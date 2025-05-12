@@ -1,11 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="icon" href="https://bafybeiceo34zauhu2y7jsu425tlkbj3lg7po4yqfj43kgj5dahbec6j6ae.ipfs.w3s.link/Basebunny.png" type="image/png">
+    <link rel="icon" href="https://bafybeiceo34zauhu2y7jsu425tlkbj3lg7po4yqfj43kgj5dahbec6j6ae.ipfs.w3s.link/Basebunny.png" type="image/png">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Claim 1M FAIR - BaseBunny</title>
-  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js">    // Share on X button trigger after success
+    function shareOnX() {
+      const text = encodeURIComponent("I just claimed 1M $BUNNY tokens on Base using the BaseBunny airdrop 🐰🚀
+Join now and don’t miss it!");
+      const url = encodeURIComponent(window.location.href);
+      const image = encodeURIComponent("https://bafybeiceo34zauhu2y7jsu425tlkbj3lg7po4yqfj43kgj5dahbec6j6ae.ipfs.w3s.link/Basebunny.png");
+      const shareUrl = `https://twitter.com/intent/tweet?text=${text}&url=${url}&hashtags=BaseBunny&via=BaseBunny&image=${image}`;
+      window.open(shareUrl, '_blank');
+    }
+</script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
@@ -81,6 +90,7 @@
       text-decoration: underline;
     }
   </style>
+  
 </head>
 <body style="margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #0052FF, #66B2FF); color: white;">
   <header style="text-align: center; margin-top: 40px;">
@@ -101,6 +111,7 @@
 </button>
     <div id="countdown"></div>
     <div id="status"></div>
+    <button id="shareBtn" onclick="shareOnX()" style="display:none; margin-top: 10px;">📢 Share on X</button>
   </div>
   <div>
     <canvas id="claimChart" width="220" height="220"></canvas>
@@ -195,6 +206,7 @@
         document.getElementById("status").innerText = "Claiming...";
         await tx.wait();
         document.getElementById("status").innerText = "Success! 1M BUNNY tokens claimed.";
+        document.getElementById("shareBtn").style.display = "inline-block";
         document.getElementById("claimText").innerText = originalText;
         document.getElementById("loader").style.display = "none";
         claimBtn.disabled = false;
