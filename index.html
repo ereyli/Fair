@@ -135,7 +135,7 @@
           document.getElementById("connectBtn").innerText = "Wallet Connected";
           await updateChart();
         } catch (err) {
-          document.getElementById("status").innerText = "Connection failed";
+          // document.getElementById("status").innerText = "Connection failed";
         }
       } else {
         document.getElementById("status").innerText = "MetaMask not detected";
@@ -169,7 +169,7 @@
         document.getElementById("status").innerText = "Success! 1M BUNNY tokens claimed.";
       } catch (error) {
         console.error(error);
-        document.getElementById("status").innerText = "Transaction failed.";
+        // document.getElementById("status").innerText = "Transaction failed.";
       }
     }
 
