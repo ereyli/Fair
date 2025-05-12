@@ -1,82 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="icon" href="/mnt/data/1pCjLY5q_400x400.jpg" type="image/jpeg">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Claim FAIR Tokens - FairBase</title>
   <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
       margin: 0;
-      padding: 0;
+      padding: 40px 20px;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #0052FF, #66B2FF);
       color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      flex-direction: column;
       text-align: center;
     }
 
     h1 {
-      font-size: 3rem;
-      margin-bottom: 0.5rem;
+      font-size: 2.5rem;
+      margin-bottom: 0.2rem;
     }
 
     h2 {
       font-weight: 400;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       margin-top: 0;
+      margin-bottom: 1.5rem;
       color: #d0e9ff;
-      max-width: 600px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     button {
       background-color: #0052FF;
       border: none;
       color: white;
-      padding: 15px 30px;
-      font-size: 1.2rem;
-      border-radius: 12px;
+      padding: 14px 28px;
+      font-size: 1.1rem;
+      border-radius: 10px;
       cursor: pointer;
-      margin-top: 20px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      transition: background 0.3s;
+      margin: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      transition: background 0.3s ease;
     }
 
     button:hover {
-      background-color: #0040cc;
+      background-color: #003fbb;
     }
 
-    #status {
-      margin-top: 15px;
-      font-size: 1.1rem;
-      color: #ffd700;
-    }
-
-    #walletAddress {
-      margin-top: 10px;
+    #status, #walletAddress, #countdown {
       font-size: 1rem;
-      color: #bbf1ff;
+      margin-top: 10px;
     }
 
-    #countdown {
-      font-size: 1.5rem;
-      margin-top: 15px;
+    #status { color: #ffd700; }
+    #walletAddress { color: #bbf1ff; }
+    #countdown { color: #ffffff; font-size: 1.2rem; }
+
+    #claimChart {
+      margin: 40px auto 0 auto;
+      display: block;
+      max-width: 250px;
+    }
+
+    #claimCount {
+      margin-top: 12px;
+      font-size: 1rem;
       color: #ffffff;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 0.9rem;
+    }
+
+    a {
+      color: #ffd700;
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
   <h1>Claim Your 1M FAIR Tokens</h1>
   <h2>FairBase is a fair and transparent token pre-sale on Base. Every wallet can purchase 1M FAIR tokens for 0.004 ETH. This is a one-time opportunity per wallet — no bots, no whales, just fairness.</h2>
+
   <button id="connectBtn" onclick="connectWallet()">Connect Wallet</button>
   <div id="walletAddress"></div>
   <button onclick="claimTokens()">Pay 0.004 ETH & Claim 1M FAIR</button>
+
   <div id="countdown"></div>
   <div id="status"></div>
+
+  <canvas id="claimChart" width="180" height="180"></canvas>
+  <p id="claimCount"></p>
+
+  <footer>
+    Follow us on
+    <a href="https://x.com/yourusername" target="_blank">X (Twitter)</a>
+  </footer>
 
   <script>
     const claimContractAddress = "0xd5f8e55443effded888bfc5543d5169ca52ff822";
@@ -104,7 +127,6 @@
           document.getElementById("walletAddress").innerText = address;
           document.getElementById("connectBtn").innerText = "Wallet Connected";
           await updateChart();
-    updateClaimText();
           updateClaimText();
         } catch (err) {
           document.getElementById("status").innerText = "Connection failed";
@@ -166,23 +188,14 @@
     }
 
     setInterval(updateCountdown, 1000);
-  </script>
-  <div style="margin-top: 40px; font-size: 0.9rem;">
-    Follow us on
-    <a href="https://x.com/yourusername" target="_blank" style="color: #ffd700; text-decoration: underline;">X (Twitter)</a>
-  </div>
-  <canvas id="claimChart" width="180" height="180" style="margin: 40px auto 0 auto; display: block; max-width: 300px;"></canvas>
-<p id="claimCount" style="margin-top: 10px; font-size: 1rem; color: #ffffff;"></p>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    // Dummy value, replace with actual claimed amount if reading from contract
+
     let totalClaimed = 0;
 
     async function updateChart() {
       try {
         const balance = await provider.getBalance(claimContractAddress);
         const ethReceived = parseFloat(ethers.utils.formatEther(balance));
-        totalClaimed = Math.floor((ethReceived / 0.004));
+        totalClaimed = Math.floor(ethReceived / 0.004);
       } catch (e) {
         totalClaimed = 0;
       }
@@ -216,9 +229,9 @@
     }
 
     window.addEventListener('load', async () => {
-  provider = new ethers.providers.JsonRpcProvider("https://mainnet.base.org");
-  await updateChart();
-});
+      provider = new ethers.providers.JsonRpcProvider("https://mainnet.base.org");
+      await updateChart();
+    });
   </script>
 </body>
 </html>
