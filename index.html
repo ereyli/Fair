@@ -95,7 +95,10 @@
   <div>
     <button id="connectBtn" onclick="connectWallet()">Connect Wallet</button>
     <div id="walletAddress"></div>
-    <button onclick="claimTokens()">Pay 0.004 ETH & Claim 1M FAIR</button>
+    <button id="claimBtn" onclick="claimTokens()">
+  <span id="claimText">Pay 0.004 ETH & Claim 1M BUNNY</span>
+  <span id="loader" style="display: none; margin-left: 10px;">⏳</span>
+</button>
     <div id="countdown"></div>
     <div id="status"></div>
   </div>
@@ -156,6 +159,18 @@
     }
 
     async function claimTokens() {
+      const claimBtn = document.getElementById("claimBtn");
+      const originalText = claimBtn.innerText;
+      claimBtn.disabled = true;
+      document.getElementById("claimText").innerText = "Claiming...";
+      document.getElementById("loader").style.display = "inline-block";
+      const userAddress = await signer.getAddress();
+      const balance = await provider.getBalance(userAddress);
+      const minRequired = ethers.utils.parseEther("0.0041");
+      if (balance.lt(minRequired)) {
+        document.getElementById("status").innerText = "Insufficient ETH balance (need at least 0.0041 ETH)";
+        return;
+      }
       if (!contract) {
         document.getElementById("status").innerText = "Please connect your wallet first to claim BUNNY.";
         return;
@@ -180,9 +195,13 @@
         document.getElementById("status").innerText = "Claiming...";
         await tx.wait();
         document.getElementById("status").innerText = "Success! 1M BUNNY tokens claimed.";
+        document.getElementById("claimText").innerText = originalText;
+        document.getElementById("loader").style.display = "none";
+        claimBtn.disabled = false;
       } catch (error) {
         console.error(error);
-        // document.getElementById("status").innerText = "Transaction failed.";
+        claimBtn.innerText = originalText;
+        claimBtn.disabled = false;
       }
     }
 
