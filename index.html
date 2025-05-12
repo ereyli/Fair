@@ -104,6 +104,8 @@
           document.getElementById("walletAddress").innerText = address;
           document.getElementById("connectBtn").innerText = "Wallet Connected";
           await updateChart();
+    updateClaimText();
+          updateClaimText();
         } catch (err) {
           document.getElementById("status").innerText = "Connection failed";
         }
@@ -169,7 +171,8 @@
     Follow us on
     <a href="https://x.com/yourusername" target="_blank" style="color: #ffd700; text-decoration: underline;">X (Twitter)</a>
   </div>
-  <canvas id="claimChart" width="300" height="150" style="margin-top: 40px;"></canvas>
+  <canvas id="claimChart" width="220" height="220" style="margin-top: 30px; max-width: 90%;"></canvas>
+<p id="claimCount" style="margin-top: 10px; font-size: 1rem; color: #ffffff;"></p>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
     // Dummy value, replace with actual claimed amount if reading from contract
@@ -209,9 +212,13 @@
           }
         }
       );
+      document.getElementById("claimCount").innerText = `${totalClaimed} wallets have claimed so far.`;
     }
 
-    // window.addEventListener('load', updateChart);
+    window.addEventListener('load', async () => {
+  provider = new ethers.providers.JsonRpcProvider("https://mainnet.base.org");
+  await updateChart();
+});
   </script>
 </body>
 </html>
